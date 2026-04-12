@@ -29,7 +29,7 @@ fi
 
 # Generate random secrets
 gen_secret() {
-  LC_ALL=C </dev/urandom tr -dc A-Za-z0-9 2>/dev/null | head -c "${1:-28}"
+  LC_ALL=C </dev/urandom tr -dc A-Za-z0-9 2>/dev/null | head -c "${1:-28}" || true
 }
 
 DBPASS=$(gen_secret 28)
@@ -70,10 +70,12 @@ if [ ! -f data/assets/ssl/cert.pem ]; then
 fi
 
 # Create rspamd password placeholder if missing
+mkdir -p ./data/conf/rspamd/override.d
 [ ! -f ./data/conf/rspamd/override.d/worker-controller-password.inc ] && \
   echo '# Placeholder' > ./data/conf/rspamd/override.d/worker-controller-password.inc
 
 # Set app_info
+mkdir -p data/web/inc
 mailcow_git_version=$(git describe --tags "$(git rev-list --tags --max-count=1)" 2>/dev/null || git rev-parse --short HEAD)
 mailcow_git_commit=$(git rev-parse HEAD 2>/dev/null || echo "unknown")
 mailcow_git_commit_date=$(git log -1 --format=%ci 2>/dev/null || echo "unknown")
