@@ -26,15 +26,17 @@ REDISPASS=__REDISPASS__
 
 # ------------------------------
 # HTTP/S Bindings
+# Bound to localhost — Traefik reverse proxy handles external traffic
 # ------------------------------
-HTTP_PORT=80
-HTTP_BIND=
+HTTP_PORT=8080
+HTTP_BIND=127.0.0.1
 
-HTTPS_PORT=443
-HTTPS_BIND=
+HTTPS_PORT=8443
+HTTPS_BIND=127.0.0.1
 
 # Redirect HTTP connections to HTTPS - y/n
-HTTP_REDIRECT=y
+# Disabled because Traefik handles TLS termination
+HTTP_REDIRECT=n
 
 # ------------------------------
 # Other bindings
@@ -76,7 +78,8 @@ AUTODISCOVER_SAN=y
 ADDITIONAL_SERVER_NAMES=
 
 # Skip ACME / Let's Encrypt - y/n
-SKIP_LETS_ENCRYPT=n
+# Traefik handles TLS certificates externally
+SKIP_LETS_ENCRYPT=y
 
 # DNS-01 challenge for ACME
 ACME_DNS_CHALLENGE=n
