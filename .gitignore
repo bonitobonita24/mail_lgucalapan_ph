@@ -69,6 +69,7 @@ data/web/inc/app_info.inc.php
 data/web/nextcloud*/
 data/web/rc*/
 docker-compose.override.yml
+CREDENTIALS.md
 mailcow.conf
 mailcow.conf_backup
 rebuild-images.sh
