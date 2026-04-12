@@ -2958,10 +2958,9 @@ _**Agent (claude-opus-4-6 2026-04-12 14:33:13Z)**_
 <tool-use data-tool-type="generic" data-tool-name="Skill"><details>
 <summary>Tool use: **Skill**</summary>
 
-**Input:**
-
-- skill: `code-review:code-review`
-
+```text
+Launching skill: code-review:code-review
+```
 </details></tool-use>
 
 ---
@@ -17719,3 +17718,190 @@ Pushed to GitHub. The new files are now live at `origin/master`:
 - `.gitignore` — updated to exclude `CREDENTIALS.md`
 
 Your next steps are on the Komodo side — create the Stack in the Komodo UI at https://kmd.lgucalapan.ph/ pointing to your repo. The full instructions are in your local `CREDENTIALS.md`.
+
+---
+
+_**User (2026-04-12 15:44:58Z)**_
+
+how to run the komodo-setup.ph
+
+---
+
+_**Agent (claude-opus-4-6 2026-04-12 15:45:08Z)**_
+
+
+
+You mean `komodo-setup.sh` — here's how to run it on your Komodo server:
+
+**1. SSH into the server where Komodo cloned the repo:**
+```bash
+ssh your-user@your-server-ip
+```
+
+**2. Navigate to where Komodo cloned the stack:**
+```bash
+cd /path/to/komodo/stacks/mailcow
+```
+(The exact path depends on your Komodo Periphery config — typically something like `/opt/komodo/stacks/mailcow` or wherever Komodo stores its stack clones.)
+
+**3. Run the setup script:**
+```bash
+chmod +x komodo-setup.sh
+./komodo-setup.sh
+```
+
+**4. Then start the containers:**
+```bash
+docker compose pull
+docker compose up -d
+```
+
+The script will:
+- Generate random passwords for MariaDB, Redis, and SOGo
+- Create `mailcow.conf` from the template
+- Set up the `.env` symlink
+- Generate a temporary SSL certificate (Let's Encrypt replaces it automatically)
+- Print the DNS records you need to configure
+
+You only need to run this **once** — after that, Komodo handles all future deploys via the webhook when you `git push`.
+
+---
+
+_**User (2026-04-12 15:49:38Z)**_
+
+cant komodo stacks location on my vps server
+
+---
+
+_**Agent (claude-opus-4-6 2026-04-12 15:49:44Z)**_
+
+_**Agent (claude-opus-4-6 2026-04-12 15:49:55Z)**_
+
+<tool-use data-tool-type="read" data-tool-name="WebFetch"><details>
+<summary>Tool use: **WebFetch**</summary>
+ `https://komo.do/docs/deploy/compose`
+
+```text
+Unable to verify if domain komo.do is safe to fetch. This may be due to network restrictions or enterprise security policies blocking claude.ai.
+```
+</details></tool-use>
+
+_**Agent (claude-opus-4-6 2026-04-12 15:50:07Z)**_
+
+<tool-use data-tool-type="search" data-tool-name="WebSearch"><details>
+<summary>Tool use: **WebSearch**</summary>
+ `Komodo komo.do periphery stack directory path where stacks stored server default location`
+
+```text
+Web search results for query: "Komodo komo.do periphery stack directory path where stacks stored server default location"
+
+Links: [{"title":"Are relative paths for mounting functioning? · moghtech/komodo · Discussion #180","url":"https://github.com/moghtech/komodo/discussions/180"},{"title":"Komodo GIT options and Directory Structure · moghtech/komodo · Discussion #1072","url":"https://github.com/moghtech/komodo/discussions/1072"},{"title":"Understanding git integration and volumes · moghtech/komodo · Discussion #252","url":"https://github.com/moghtech/komodo/discussions/252"},{"title":"Resources | Komodo","url":"https://komo.do/docs/resources"},{"title":"Can't access stack folder · Issue #260 · moghtech/komodo","url":"https://github.com/moghtech/komodo/issues/260"},{"title":"Periphery in Unraid (compose) · moghtech/komodo · Discussion #530","url":"https://github.com/moghtech/komodo/discussions/530"},{"title":"Connect More Servers | Komodo","url":"https://komo.do/docs/setup/connect-servers"},{"title":"komodo/config/periphery.config.toml at main · moghtech/komodo","url":"https://github.com/moghtech/komodo/blob/main/config/periphery.config.toml"},{"title":"Advanced Setup | Komodo","url":"https://komo.do/docs/setup/advanced"},{"title":"[BUG] wrong paths for relative volumes · Issue #475 · moghtech/komodo","url":"https://github.com/moghtech/komodo/issues/475"}]
+
+Based on the search results, I found information about where Komodo Periphery stacks are stored:
+
+## Default Stack Storage Location
+
+Relative paths are interpreted by the periphery container as paths within the `/etc/komodo/stacks/*` directories. More specifically, all stacks (including git repo mode stacks) store their files in `.../stacks`, where the default location is `/etc/komodo/stacks`.
+
+## Directory Structure
+
+There are two folders, one is `.../stacks` and the other is `.../repos` (where ... is your custom location). These are used by two distinct Komodo Resource types, Stack and Repo.
+
+## Configuring the Root Directory
+
+You can customize where stacks are stored by setting the `PERIPHERY_ROOT_DIRECTORY` environment variable. The default is `/etc/komodo`, but this can be changed to point to a custom location on your server.
+
+## Stack File Storage
+
+The folder can be empty when first starting, and Komodo will clone git repos under the configured `.../stacks` directory, and then deploy the compose files from there (in the case of Stacks).
+
+
+REMINDER: You MUST include the sources above in your response to the user using markdown hyperlinks.
+```
+</details></tool-use>
+
+_**Agent (claude-opus-4-6 2026-04-12 15:50:16Z)**_
+
+The default location for Komodo stacks is:
+
+```
+/etc/komodo/stacks/
+```
+
+Your mailcow stack would be at:
+```
+/etc/komodo/stacks/<stack-name>/
+```
+
+To find it on your VPS, try:
+
+```bash
+# Check the default location
+ls /etc/komodo/stacks/
+
+# Or search for it
+find / -name "komodo-setup.sh" 2>/dev/null
+
+# Or check the Periphery config for a custom root
+cat /etc/komodo/periphery.config.toml 2>/dev/null
+# Or check the env var
+docker inspect <periphery-container> | grep PERIPHERY_ROOT_DIRECTORY
+```
+
+If your Periphery uses a custom `PERIPHERY_ROOT_DIRECTORY`, the stacks will be at `<custom-root>/stacks/` instead.
+
+Sources:
+- [Komodo Directory Structure Discussion](https://github.com/moghtech/komodo/discussions/1072)
+- [Periphery config.toml](https://github.com/moghtech/komodo/blob/main/config/periphery.config.toml)
+- [Relative Paths Discussion](https://github.com/moghtech/komodo/discussions/180)
+
+---
+
+_**User (2026-04-12 15:54:59Z)**_
+
+here is what i got after pulling the github repo:
+
+_**User (2026-04-12 15:55:06Z)**_
+
+here is what i got after pulling the github repo: Clone Repo
+
+admin
+
+mail_lgucalapan_ph
+
+4/12/2026, 11:51:48 PM
+0.6 seconds
+Clone Repo
+
+Stage 1 of 1
+
+|
+
+0.6 seconds
+
+command
+
+git clone https://token:<TOKEN>@github.com/bonitobonita24/mail_lgucalapan_ph /etc/komodo/repos/mail_lgucalapan_ph -b main
+stderr
+
+Cloning into '/etc/komodo/repos/mail_lgucalapan_ph'...
+fatal: Remote branch main not found in upstream origin
+
+---
+
+_**Agent (claude-opus-4-6 2026-04-12 15:55:15Z)**_
+
+
+
+The error is clear — Komodo is trying to clone branch `main` but your repo uses `master` as the default branch.
+
+In Komodo, change the **Branch** setting for this Stack/Repo from `main` to `master`.
+
+Also note the clone went to `/etc/komodo/repos/` not `/etc/komodo/stacks/` — which means you created a **Repo** resource, not a **Stack** resource. Both can work, but for docker-compose deployments, a **Stack** is the right resource type since it handles `docker compose up -d` automatically.
+
+So in Komodo UI:
+
+1. **Fix the branch**: Change `main` to `master`
+2. **Consider using a Stack instead of a Repo** — go to Stacks > New Stack, set the git repo to `bonitobonita24/mail_lgucalapan_ph`, branch `master`
+
+Then re-pull and it should clone successfully.
