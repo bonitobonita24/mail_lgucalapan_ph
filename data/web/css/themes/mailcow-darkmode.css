@@ -240,11 +240,11 @@ input.form-control:disabled, textarea.form-disabled {
 
 
 a {
-    color: #6fc7e9;
+    color: #7ba7d9;
     text-decoration: underline;
 }
 a:hover {
-    color: #3daedb;
+    color: #5b8fbf;
 }
 
 .breadcrumb-item.active {
@@ -277,7 +277,7 @@ a:hover {
     background-color: #2c2c2c;
 }
 .accordion-button:not(.collapsed) {
-    color: #6fc7e9;
+    color: #7ba7d9;
     background-color: #2c2c2c;
 }
 .accordion-button::after {

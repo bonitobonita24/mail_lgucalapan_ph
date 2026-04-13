@@ -38,7 +38,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #fbfbfb;
+  background-color: #f4f6f9;
 }
 #maxmsgsize { min-width: 80px; }
 #slider1 .slider-selection {
@@ -364,12 +364,24 @@ button[aria-expanded='true'] > .caret {
 
 
 .bg-primary, .alert-primary, .btn-primary {
-  background-color: #0F688D !important;
-  border-color: #0d526d !important;
+  background-color: #0d244c !important;
+  border-color: #091b38 !important;
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #091b38 !important;
+  border-color: #061229 !important;
 }
 .bg-info, .alert-info, .btn-info {
-  background-color: #148DBC !important;
-  border-color: #127ea8 !important;
+  background-color: #1a6b3c !important;
+  border-color: #155a31 !important;
+}
+.btn-success {
+  background-color: #0d244c !important;
+  border-color: #091b38 !important;
+}
+.btn-success:hover, .btn-success:focus {
+  background-color: #091b38 !important;
+  border-color: #061229 !important;
 }
 
 .bootstrap-select>.dropdown-toggle.bs-placeholder.btn-secondary {
