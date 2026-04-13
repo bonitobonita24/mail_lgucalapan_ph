@@ -1,4 +1,3 @@
-/* EXAMPLE - EXAMPLE - EXAMPLE - EXAMPLE - EXAMPLE - EXAMPLE - EXAMPLE
 (function() {
   'use strict';
   angular.module('SOGo.Common')
@@ -6,31 +5,31 @@
 
   configure.$inject = ['$mdThemingProvider'];
   function configure($mdThemingProvider) {
-    var greyMap = $mdThemingProvider.extendPalette('grey', {
-      '200': 'F5F5F5',
-      '300': 'E5E5E5',
-      '1000': '4C566A'
+    var orangePalette = $mdThemingProvider.extendPalette('orange', {
+      '500': 'f28237',
+      '600': 'e0742e',
+      '700': 'cc6826',
+      '800': 'b85c1f',
+      'A200': 'f28237',
+      'A400': 'e0742e',
+      'A700': 'cc6826',
+      'contrastDefaultColor': 'light'
     });
-    var greenCow = $mdThemingProvider.extendPalette('green', {
-      '600': 'E5E5E5'
-    });
-    $mdThemingProvider.definePalette('frost-grey', greyMap);
-    $mdThemingProvider.definePalette('green-cow', greenCow);
+    $mdThemingProvider.definePalette('mailcow-orange', orangePalette);
     $mdThemingProvider.theme('default')
-      .primaryPalette('green-cow', {
-        'default': '400',
-        'hue-1': '400',
-        'hue-2': '600',
+      .primaryPalette('mailcow-orange', {
+        'default': '500',
+        'hue-1': '600',
+        'hue-2': '700',
         'hue-3': 'A700'
       })
-      .accentPalette('green', {
+      .accentPalette('blue-grey', {
         'default': '600',
         'hue-1': '300',
         'hue-2': '300',
         'hue-3': 'A700'
       })
-      .backgroundPalette('frost-grey');
+      .backgroundPalette('grey');
     $mdThemingProvider.generateThemesOnDemand(false);
   }
 })();
- */
