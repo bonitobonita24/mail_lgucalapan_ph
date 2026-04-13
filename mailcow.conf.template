@@ -57,7 +57,7 @@ REDIS_PORT=127.0.0.1:7654
 TZ=Asia/Manila
 
 # Fixed project name
-COMPOSE_PROJECT_NAME=mailcowdockerized
+COMPOSE_PROJECT_NAME=mail-lgucalapan-ph
 
 # Used Docker Compose version
 DOCKER_COMPOSE_VERSION=native
