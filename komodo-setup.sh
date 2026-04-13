@@ -29,7 +29,7 @@ fi
 
 # Generate random secrets
 gen_secret() {
-  LC_ALL=C </dev/urandom tr -dc A-Za-z0-9 2>/dev/null | head -c "${1:-28}" || true
+  openssl rand -base64 48 | LC_ALL=C tr -dc A-Za-z0-9 | head -c "${1:-28}" || true
 }
 
 DBPASS=$(gen_secret 28)
