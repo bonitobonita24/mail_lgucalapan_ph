@@ -69,6 +69,13 @@ if [ ! -f data/assets/ssl/cert.pem ]; then
   echo "Snake-oil certificate generated. Let's Encrypt will replace it automatically."
 fi
 
+# Generate DH parameters if missing (required by Dovecot for TLS)
+if [ ! -f data/assets/ssl/dhparams.pem ]; then
+  echo "Generating DH parameters (2048-bit). This may take 1-2 minutes..."
+  openssl dhparam -out data/assets/ssl/dhparams.pem 2048
+  echo "DH parameters generated."
+fi
+
 # Create rspamd password placeholder if missing
 mkdir -p ./data/conf/rspamd/override.d
 [ ! -f ./data/conf/rspamd/override.d/worker-controller-password.inc ] && \
